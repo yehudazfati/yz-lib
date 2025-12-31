@@ -1,0 +1,73 @@
+:host {
+    height: -webkit-fill-available;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+calendar {
+    display: flex;
+    flex-direction: column;
+    height: -webkit-fill-available;
+}
+
+calendar-month {
+    display: flex;
+    flex-direction: column;
+    height: -webkit-fill-available;
+}
+
+.week-calendar {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    /* Creates 12 equal-width columns */
+    height: -webkit-fill-available;
+}
+
+.day-calendar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: -webkit-fill-available;
+    box-sizing: border-box;
+}
+
+.seletable {
+    cursor: pointer;
+}
+
+.today {
+    background-color: yellow;
+}
+
+.selected {
+    background-color: lightgreen;
+}
+
+.day-view {
+    grid-template-columns: repeat(1, 1fr);
+    grid-template-rows: 1fr;
+
+    .day-calendar {
+        grid-column: 1 !important;
+    }
+}
+
+.week-calendar.days-titles {
+    height: auto;
+}
+
+.week-calendar.days-titles calendar-day {
+    height: 50px;
+}
+
+.week-calendar:hover calendar-day:first-child {
+    border-left: 1px dotted lightgray;
+}
+calendar-month:hover calendar-day {
+    border-right: 1px dotted lightgray;
+}
+
+.week-calendar calendar-day:hover {
+    background-color: rgba(211, 211, 211, 0.514);
+}
