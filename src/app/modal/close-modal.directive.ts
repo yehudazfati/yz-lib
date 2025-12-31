@@ -1,18 +1,23 @@
-import { Directive, ElementRef, HostListener, inject, Renderer2 } from "@angular/core";
-import { Subject } from "rxjs";
+import { Directive, ElementRef, inject, Renderer2 } from "@angular/core";
+import { ModalToken } from "./modal.consts";
+import { ModalIfc } from "./modal.interfaces";
 
 @Directive({
     standalone: true,
     selector: '[closeModal]',
-    exportAs: 'closeModal'
+    exportAs: 'closeModal',
+    host: {
+        '(click)': 'onClick()'
+    }
 })
 export class CloseModalDirective {
-    close$ = new Subject<void>();
+    modal = inject<ModalIfc>(ModalToken, { optional: true});
     host = inject(ElementRef);
     renderer = inject(Renderer2);
-    @HostListener('click') 
-    clickHandler() {
-        this.close$.next();
+    
+    onClick() {
+        if (!this.modal) console.warn('ModalToken not provided');
+        this.modal?.closeModal();
     }
 
     public addClass(cssClass: string): void {
@@ -21,5 +26,4 @@ export class CloseModalDirective {
             this.renderer.addClass(this.host.nativeElement, cssClass);
         }
     }
-
 }

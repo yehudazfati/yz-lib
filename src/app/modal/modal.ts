@@ -1,10 +1,15 @@
 import { NgTemplateOutlet } from '@angular/common';
-import { AfterContentInit, Component, ContentChild, ContentChildren, HostListener, model, OnDestroy, OnInit, QueryList } from '@angular/core';
-import { Observable, Subject, takeUntil } from 'rxjs';
+import { afterNextRender, Component, contentChild, model } from '@angular/core';
 import { CloseModalDirective } from './close-modal.directive';
+import { ModalToken } from './modal.consts';
+import { ModalIfc } from './modal.interfaces';
 
 @Component({
   selector: 'modal',
+  providers: [{
+    provide: ModalToken,
+    useExisting: Modal
+  }],
   imports: [NgTemplateOutlet],
   standalone: true,
   template: `
@@ -17,32 +22,24 @@ import { CloseModalDirective } from './close-modal.directive';
     <ng-container *ngTemplateOutlet="showModal() ? createEventContainer: null "/>
   `,
   styleUrl: `./modal.scss`,
+  host: {
+    '(document:keydown.escape)': 'onEscPressed($event)'
+  }
 })
-export class Modal implements AfterContentInit, OnDestroy, OnInit {
-  destroy$ = new Subject<void>();
+export class Modal implements ModalIfc {
   showModal = model<boolean>(false);
-  @ContentChild(CloseModalDirective, { descendants: true, static: true }) closeModalDirective!: CloseModalDirective;
-  @HostListener('document:keydown.escape', ['$event'])
-  
   onEscPressed(event: Event) {
     console.log('ESC pressed', event);
     this.showModal.set(false);
   }
-
-  ngOnInit(): void {
-    this.closeModalDirective.addClass('close-button');
-  }
-  
-  ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
+  closeButton = contentChild(CloseModalDirective, { descendants: true })
+  constructor() {
+    afterNextRender(() => {
+      this.closeButton()?.addClass('close-button');
+    })
   }
 
-  ngAfterContentInit(): void {
-    this.closeModalDirective?.close$
-    .pipe(takeUntil(this.destroy$))
-    .subscribe(() => {
-      this.showModal.set(false);
-    });
+  public closeModal() {
+    this.showModal.set(false);
   }
 }

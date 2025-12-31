@@ -1,14 +1,23 @@
-import { AfterContentInit, Component, ContentChildren, inject, model, output, OnDestroy, QueryList, signal, OnInit } from '@angular/core';
-import { Subject, takeUntil } from 'rxjs';
+import { Component, inject, model, OnInit, output } from '@angular/core';
 import { CalendarServiceToken } from '../../my-calendar/consts';
-import { CalendarNavDirective } from './calendar-nav.directive';
-import { CalendarViewDirective } from './calendar-view.directive';
+import { TimeNavigatorIfc, ViewNavigatorIfc } from './calendar-interfaces';
+import { TimeNavigatorToken, ViewNavigatorToken } from './calendar-navigator.tokens';
+
 
 @Component({
+  providers: [
+    {
+      provide: TimeNavigatorToken,
+      useExisting: CalendarNavigator
+    },
+    {
+      provide: ViewNavigatorToken,
+      useExisting: CalendarNavigator
+    },
+    
+  ],
   selector: 'calendar-navigator',
-  template: `
-    <ng-content></ng-content>
-  `,
+  template: `<ng-content></ng-content>`,
   styles: `
     :host {
       display: flex;
@@ -16,13 +25,13 @@ import { CalendarViewDirective } from './calendar-view.directive';
     }
   `,
 })
-export class CalendarNavigator implements AfterContentInit, OnDestroy, OnInit {
-  
+export class CalendarNavigator implements OnInit, TimeNavigatorIfc, ViewNavigatorIfc {
+
   calendarService = inject(CalendarServiceToken);
   currentDate = model<Date>(new Date());
   calendarView = model<'day' | 'week' | 'month'>('month');
   daysInView = output<Date[][]>();
-  
+
   #prevMonth = () => {
     this.currentDate.set(this.calendarService.prev(this.currentDate(), this.calendarView()));
     this.daysInView.emit(this.calendarService.daysInView(this.currentDate(), this.calendarView()));
@@ -35,44 +44,26 @@ export class CalendarNavigator implements AfterContentInit, OnDestroy, OnInit {
     this.currentDate.set(new Date())
     this.daysInView.emit(this.calendarService.daysInView(this.currentDate(), this.calendarView()));
   };
-  #destroy$ = new Subject<void>();
-
-  @ContentChildren(CalendarViewDirective, { descendants: true }) views!: QueryList<CalendarViewDirective>;
-  @ContentChildren(CalendarNavDirective, { descendants: true }) navs!: QueryList<CalendarNavDirective>;
   
   ngOnInit(): void {
     this.daysInView.emit(this.calendarService.daysInView(this.currentDate(), this.calendarView()));
   }
-  ngAfterContentInit(): void {
-    this.views?.forEach(view => {
-      view.view$
-        .pipe(takeUntil(this.#destroy$))
-        .subscribe((value: 'day' | 'week' | 'month') => {
-          this.calendarView.set(value);
-          this.daysInView.emit(this.calendarService.daysInView(this.currentDate(), value));
-        })
-    });
 
-    this.navs?.forEach(view => {
-      view.nav$
-        .pipe(takeUntil(this.#destroy$))
-        .subscribe((value: 'next' | 'prev' | 'today') => {
-          switch (value) {
-            case 'next':
-              this.#nextMonth();
-              break;
-            case 'prev':
-              this.#prevMonth();
-              break;
-            case 'today':
-              this.#currentDate();
-          }
-        })
-    });
+  changeView(view: 'day' | 'week' | 'month') {
+    this.calendarView.set(view);
+    this.daysInView.emit(this.calendarService.daysInView(this.currentDate(), view));
   }
 
-  ngOnDestroy(): void {
-    this.#destroy$.next();
-    this.#destroy$.complete();
+  navidate(value: 'next' | 'prev' | 'today') {
+    switch (value) {
+      case 'next':
+        this.#nextMonth();
+        break;
+      case 'prev':
+        this.#prevMonth();
+        break;
+      case 'today':
+        this.#currentDate();
+    }
   }
 }

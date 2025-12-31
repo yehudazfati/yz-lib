@@ -1,0 +1,1 @@
+export type ModalIfc = { closeModal: () =>  void }

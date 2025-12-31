@@ -1,16 +1,20 @@
-import { Directive, HostListener, input, model } from '@angular/core';
-import { Subject } from 'rxjs';
+import { Directive, inject, input } from '@angular/core';
+import { ViewNavigatorIfc } from './calendar-interfaces';
+import { ViewNavigatorToken } from './calendar-navigator.tokens';
 
 @Directive({
   selector: '[calendarView]',
-  standalone: true
+  standalone: true,
+  host: {
+    '(click)': 'onClick($event)'
+  }
 })
 export class CalendarViewDirective {
   calendarView = input.required<'day' | 'week' | 'month'>();
-  view$ = new Subject<'day' | 'week' | 'month'>();
+  viewSwitcher =  inject<ViewNavigatorIfc>(ViewNavigatorToken, { optional: true});
 
-  @HostListener('click')
   onClick() {
-    this.view$.next(this.calendarView());
+    if (!this.viewSwitcher) console.warn('ViewNavigatorToken not provided');
+    this.viewSwitcher?.changeView(this.calendarView());
   }
 }
