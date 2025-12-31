@@ -1,13 +1,12 @@
-import { NgTemplateOutlet } from '@angular/common';
-import { ChangeDetectionStrategy, Component, effect, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, linkedSignal, signal } from '@angular/core';
 import { CalendarEvent } from './calendar-event';
 import { CalendarEventFormComponent } from "./calendar-event-form.component";
 import { CalendarEventStoreService } from './calendar-event-store.service';
 import { CalendarStore } from './calendar-event.store';
+import { CloseModalDirective } from "./modal/close-modal.directive";
 import { Modal } from "./modal/modal";
 import { PersistenceServiceToken } from './my-calendar/consts';
 import { MyCalendar } from "./my-calendar/my-calendar";
-import { CloseModalDirective } from "./modal/close-modal.directive";
 
 @Component({
   styleUrl: './app.component.scss',
@@ -29,22 +28,11 @@ import { CloseModalDirective } from "./modal/close-modal.directive";
     }],
 })
 export class App {
-  showFormModal = signal(false);
   event = signal<CalendarEvent | undefined>(undefined);
+  showFormModal = linkedSignal(() => !!this.event())
   daySelected = signal<Date | undefined>(undefined);
   currentMonth = signal<Date>(new Date());
   readonly persisteceService = inject(PersistenceServiceToken);
-
-  constructor() {
-    effect(() => {
-      if (!!this.event()) {
-        this.showFormModal.set(true);
-      } else {
-        this.showFormModal.set(false);
-      }
-      console.log('current month:', this.currentMonth());
-    });
-  }
 
   updateEvent(eventToUpdate: CalendarEvent) {
     this.event.set(eventToUpdate);
