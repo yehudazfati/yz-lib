@@ -9,7 +9,6 @@ import { PersistenceServiceIfc } from './my-calendar/interfaces';
 export class LocalStorageService implements PersistenceServiceIfc {
   private readonly storageKey = 'calendarEvents';
 
-  constructor() { }
   deleteEvent(event: CalendarEvent): void {
     throw new Error('Method not implemented.');
   }
@@ -49,7 +48,7 @@ export class LocalStorageService implements PersistenceServiceIfc {
     });
   }
 
-  addEvent(event: CalendarEvent): void {
+  save(event: CalendarEvent): void {
     const events = this.getEvents();
     events.push(event);
     localStorage.setItem(this.storageKey, JSON.stringify(events));
