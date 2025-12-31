@@ -6,10 +6,8 @@
  * found in the LICENSE file at https://angular.dev/license
  */
 
-import {ApplicationConfig, provideZoneChangeDetection} from '@angular/core';
+import { ApplicationConfig } from '@angular/core';
 
 export const appConfig: ApplicationConfig = {
-  providers: [
-    provideZoneChangeDetection()
-  ],
+  providers: [],
 };
