@@ -1,12 +1,12 @@
 import { DatePipe, NgClass } from '@angular/common';
 import { Component, computed, inject, model, output, signal } from '@angular/core';
-import { CalendarDay } from "../calendar-day/calendar-day";
+import { CalendarDay } from "../calendar/calendar-day/calendar-day";
 import { CalendarFnsService } from '../calendar-fns.service';
-import { CalendarMonth } from "../calendar-month/calendar-month";
-import { CalendarNavDirective } from '../calendar-navigator/calendar-nav.directive';
-import { CalendarNavigator } from "../calendar-navigator/calendar-navigator";
-import { CalendarViewDirective } from '../calendar-navigator/calendar-view.directive';
-import { CalendarWeek } from "../calendar-week/calendar-week";
+import { CalendarMonth } from "../calendar/calendar-month/calendar-month";
+import { CalendarNavDirective } from '../calendar/calendar-navigator/calendar-nav.directive';
+import { CalendarNavigator } from "../calendar/calendar-navigator/calendar-navigator";
+import { CalendarViewDirective } from '../calendar/calendar-navigator/calendar-view.directive';
+import { CalendarWeek } from "../calendar/calendar-week/calendar-week";
 import { Calendar } from "../calendar/calendar";
 import { CalendarServiceToken, PersistenceServiceToken } from './consts';
 import { CalendarEvent } from '../calendar-event';

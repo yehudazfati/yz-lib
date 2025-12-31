@@ -1,6 +1,6 @@
 import { AfterContentInit, Component, ContentChildren, inject, model, output, OnDestroy, QueryList, signal, OnInit } from '@angular/core';
 import { Subject, takeUntil } from 'rxjs';
-import { CalendarServiceToken } from '../my-calendar/consts';
+import { CalendarServiceToken } from '../../my-calendar/consts';
 import { CalendarNavDirective } from './calendar-nav.directive';
 import { CalendarViewDirective } from './calendar-view.directive';
 
