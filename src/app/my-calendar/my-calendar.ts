@@ -12,7 +12,7 @@ import { CalendarServiceToken, PersistenceServiceToken } from './consts';
 import { CalendarEvent } from '../calendar-event';
 
 @Component({
-  selector: 'app-my-calendar',
+  selector: 'my-calendar',
   imports: [Calendar, CalendarMonth, CalendarWeek, CalendarDay, DatePipe, CalendarNavigator, NgClass, CalendarViewDirective, CalendarNavDirective],
   standalone: true,
   providers: [
