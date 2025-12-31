@@ -1,5 +1,5 @@
 import { DatePipe } from '@angular/common';
-import { Component, effect, model, output } from '@angular/core';
+import { Component, model, output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CalendarEvent } from './calendar-event';
 
@@ -70,12 +70,6 @@ import { CalendarEvent } from './calendar-event';
 export class CalendarEventFormComponent {
   saved = output<CalendarEvent>();
   event = model<CalendarEvent | undefined>();
-
-  constructor() {
-    effect(() => {
-      console.log('CalendarEventFormComponent blbla', this.event());
-    });
-  }
 
   save() {
     this.saved.emit(this.event() as CalendarEvent);
