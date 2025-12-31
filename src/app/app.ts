@@ -8,21 +8,14 @@ import { PersistenceServiceToken } from './my-calendar/consts';
 import { MyCalendar } from "./my-calendar/my-calendar";
 
 @Component({
-  styles: `
-    :host {
-      height: -webkit-fill-available;
-      position: relative;
-      display: flex;
-      flex-direction: column;
-    }
-  `,
+  styleUrl: './app.component.scss',
   selector: 'app-root',
   template: `
     <ng-template #createEventContainer>
       <app-calendar-event-form (close)="event.set(undefined)" (saved)="saveEvent($event)" [event]="event()"></app-calendar-event-form>
     </ng-template>
     <ng-container *ngTemplateOutlet="showFormModal ? createEventContainer: null "/>
-    <app-my-calendar (dayClick)="handleDaySelected($event)" (eventClick)="updateEvent($event)"  [(currentDate)]="currentMonth"></app-my-calendar>
+    <my-calendar (dayClick)="handleDaySelected($event)" (eventClick)="updateEvent($event)"  [(currentDate)]="currentMonth"></my-calendar>
     
     
     
