@@ -1,0 +1,23 @@
+.backdrop {
+    position: fixed; 
+    background: #d3d3d39e; 
+    opacity: 0.9; 
+    top: 0; 
+    bottom: 0; 
+    left: 0; 
+    right: 0; 
+    height: 100%; 
+    z-index: 1;
+  }
+
+  .modal-content {
+    position: fixed !important;
+    margin: auto;
+    z-index: 2;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    height: fit-content;
+    width: fit-content;
+  }

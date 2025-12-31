@@ -1,17 +1,16 @@
 import { DatePipe } from '@angular/common';
-import { Component, effect, HostListener, input, model, output, signal } from '@angular/core';
+import { Component, effect, model, output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CalendarEvent } from './calendar-event';
 
 @Component({
-  selector: 'app-calendar-event-form',
+  selector: 'calendar-event-form',
   standalone: true,
   imports: [FormsModule, DatePipe],
   template: `
     <form (ngSubmit)="save()">
       <div class="form-header">
         <span class="title">Create Event for {{event()?.date | date: 'EEEE, MMMM d, y'}}</span>
-        <a class="close-button" (click)='close.emit()'> X </a>
       </div>
       <div class="fields-layout">
         <div class="row-fields-layout">
@@ -25,23 +24,9 @@ import { CalendarEvent } from './calendar-event';
       </div>
       <button type="submit">Save</button>
     </form>
-    <div class="backdrop"></div>
   `,
   styles: [`
-    .backdrop {
-      position: fixed; 
-      background: #d3d3d39e; 
-      opacity: 0.9; 
-      top: 0; 
-      bottom: 0; 
-      left: 0; 
-      right: 0; 
-      height: 100%; 
-      z-index: 1;
-    }
-    .close-button {
-      cursor: pointer;
-    }
+    
     .form-header {
       display: flex;
       flex-flow: row;
@@ -69,8 +54,6 @@ import { CalendarEvent } from './calendar-event';
     }
 
     form {
-      position: fixed !important;
-      margin: auto;
       min-width: 50%;
       display: flex;
       flex-direction: column;
@@ -78,27 +61,15 @@ import { CalendarEvent } from './calendar-event';
       padding: 20px;
       border: 1px solid #ccc;
       border-radius: 5px;
-      z-index: 2;
       background: white;
-      top: 0;
-      bottom: 0;
-      right: 0;
-      left: 0;
       height: fit-content;
       width: fit-content;
     }
   `]
 })
 export class CalendarEventFormComponent {
-  close = output<void>();
   saved = output<CalendarEvent>();
   event = model<CalendarEvent | undefined>();
-
-  @HostListener('document:keydown.escape', ['$event'])
-  onEscPressed(event: Event) {
-    console.log('ESC pressed', event);
-    this.close.emit();
-  }
 
   constructor() {
     effect(() => {
