@@ -1,6 +1,5 @@
 import { NgTemplateOutlet } from '@angular/common';
-import { afterNextRender, Component, contentChild, model } from '@angular/core';
-import { CloseModalDirective } from './close-modal.directive';
+import { Component, model } from '@angular/core';
 import { ModalToken } from './modal.consts';
 import { ModalIfc } from './modal.interfaces';
 
@@ -31,12 +30,6 @@ export class Modal implements ModalIfc {
   onEscPressed(event: Event) {
     console.log('ESC pressed', event);
     this.showModal.set(false);
-  }
-  closeButton = contentChild(CloseModalDirective, { descendants: true })
-  constructor() {
-    afterNextRender(() => {
-      this.closeButton()?.addClass('close-button');
-    })
   }
 
   public closeModal() {

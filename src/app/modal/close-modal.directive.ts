@@ -1,4 +1,4 @@
-import { Directive, ElementRef, inject, Renderer2 } from "@angular/core";
+import { afterRenderEffect, Directive, ElementRef, inject } from "@angular/core";
 import { ModalToken } from "./modal.consts";
 import { ModalIfc } from "./modal.interfaces";
 
@@ -7,23 +7,32 @@ import { ModalIfc } from "./modal.interfaces";
     selector: '[closeModal]',
     exportAs: 'closeModal',
     host: {
-        '(click)': 'onClick()'
+        '(click)': 'onClick()',
+        'class': 'close-button'
     }
 })
 export class CloseModalDirective {
     modal = inject<ModalIfc>(ModalToken, { optional: true});
     host = inject(ElementRef);
-    renderer = inject(Renderer2);
-    
+
     onClick() {
         if (!this.modal) console.warn('ModalToken not provided');
         this.modal?.closeModal();
     }
 
-    public addClass(cssClass: string): void {
-        const hasClass = this.host.nativeElement.classList.contains(cssClass);
-        if (!hasClass) {
-            this.renderer.addClass(this.host.nativeElement, cssClass);
-        }
+    constructor() {
+        afterRenderEffect({
+            earlyRead: (cleanupFn) => {
+              const el = this.host.nativeElement;
+              return el.getBoundingClientRect();
+            },
+            write: (previousPhaseValue, cleanupFn) => {
+              console.log('value from erly read: ' + JSON.stringify(previousPhaseValue()));
+            },
+            mixedReadWrite: (previousPhaseValue, cleanupFn) => {
+            },
+            read: (previousPhaseValue, cleanupFn) => {
+            },
+          });
     }
 }

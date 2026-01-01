@@ -1,7 +1,7 @@
 
 import { inject, Injectable } from '@angular/core';
 import { CalendarEvent } from './calendar-event';
-import { PersistenceServiceIfc } from './my-calendar/interfaces';
+import { PersistenceServiceIfc } from '../my-calendar/interfaces';
 import { CalendarStore } from './calendar-event.store';
 
 @Injectable({

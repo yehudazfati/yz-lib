@@ -1,4 +1,4 @@
-import { CalendarEvent } from "../calendar-event";
+import { CalendarEvent } from "../calendar-event-form/calendar-event";
 
 export interface CalendarServiceIfc {
     daysInView(date: Date, view: 'day' | 'month' | 'week'): Date[][];

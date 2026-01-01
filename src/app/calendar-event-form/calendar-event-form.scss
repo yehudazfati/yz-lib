@@ -1,0 +1,38 @@
+.form-header {
+    display: flex;
+    flex-flow: row;
+    justify-content: space-between;
+
+    .title {
+        font-size: 14px;
+        font-weight: bold;
+    }
+}
+
+.fields-layout {
+    display: grid;
+
+    .row-fields-layout {
+        display: grid;
+        grid-template-columns: 1fr 3fr;
+        grid-template-rows: repeat(2, auto auto);
+        row-gap: 4px;
+    }
+
+    textarea {
+        min-height: 150px;
+    }
+}
+
+form {
+    min-width: 50%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background: white;
+    height: fit-content;
+    width: fit-content;
+}

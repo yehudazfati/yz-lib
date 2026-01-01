@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { addDays, addMonths, addWeeks, eachDayOfInterval, endOfMonth, endOfWeek, formatDate, getDay, isSameDay, startOfMonth, startOfWeek } from 'date-fns';
-import { CalendarServiceIfc } from './my-calendar/interfaces';
+import { CalendarServiceIfc } from '../my-calendar/interfaces';
 
 @Injectable({
   providedIn: 'root',

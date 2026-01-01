@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, inject, linkedSignal, signal } from '@angular/core';
-import { CalendarEvent } from './calendar-event';
-import { CalendarEventFormComponent } from "./calendar-event-form.component";
-import { CalendarEventStoreService } from './calendar-event-store.service';
-import { CalendarStore } from './calendar-event.store';
+import { CalendarEvent } from './calendar-event-form/calendar-event';
+import { CalendarEventFormComponent } from "./calendar-event-form/calendar-event-form.component";
+import { CalendarEventStoreService } from './calendar-event-form/calendar-event-store.service';
+import { CalendarStore } from './calendar-event-form/calendar-event.store';
 import { CloseModalDirective } from "./modal/close-modal.directive";
 import { Modal } from "./modal/modal";
 import { PersistenceServiceToken } from './my-calendar/consts';

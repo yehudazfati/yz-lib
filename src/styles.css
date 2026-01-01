@@ -32,3 +32,9 @@ body {
     text-align: center;
     vertical-align: middle;
 }
+
+.error {
+  font-size: 13px;
+  line-height: 13px;
+  color: red;
+}
