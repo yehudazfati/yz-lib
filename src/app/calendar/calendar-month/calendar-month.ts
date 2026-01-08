@@ -5,7 +5,6 @@ import { Component } from '@angular/core';
   template: `
       <ng-content select='calendar-week'></ng-content>
   `,
-  styles: ``,
 })
 export class CalendarMonth {
 }

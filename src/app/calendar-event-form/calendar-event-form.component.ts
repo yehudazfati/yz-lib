@@ -1,5 +1,5 @@
 import { DatePipe } from '@angular/common';
-import { afterRenderEffect, Component, inject, input, output } from '@angular/core';
+import { afterNextRender, afterRenderEffect, Component, inject, input, output } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CalendarEvent } from './calendar-event';
 
@@ -55,6 +55,10 @@ export class CalendarEventFormComponent {
         title: this.event()?.title ?? '',
         description: this.event()?.description ?? ''
       });
+    });
+
+    afterNextRender(() => {
+
     });
   }
   

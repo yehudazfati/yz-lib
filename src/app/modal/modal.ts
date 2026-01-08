@@ -1,5 +1,5 @@
 import { NgTemplateOutlet } from '@angular/common';
-import { Component, model } from '@angular/core';
+import { Component, model, output } from '@angular/core';
 import { ModalToken } from './modal.consts';
 import { ModalIfc } from './modal.interfaces';
 
@@ -27,12 +27,14 @@ import { ModalIfc } from './modal.interfaces';
 })
 export class Modal implements ModalIfc {
   showModal = model<boolean>(false);
+  modalClosed = output<void>();
   onEscPressed(event: Event) {
     console.log('ESC pressed', event);
-    this.showModal.set(false);
+    this.closeModal();
   }
 
   public closeModal() {
     this.showModal.set(false);
+    this.modalClosed.emit();
   }
 }

@@ -6,6 +6,5 @@ import { Component } from '@angular/core';
     <ng-content select='calendar-navigator'></ng-content>
     <ng-content select='calendar-month'></ng-content>
   `,
-  styles: ``,
 })
 export class Calendar {}

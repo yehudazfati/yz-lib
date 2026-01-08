@@ -6,7 +6,7 @@ import { TimeNavigatorIfc } from './calendar-interfaces';
   selector: '[calendarNav]',
   standalone: true,
   host: {
-    '(click)': 'onClick($event)'
+    '(click)': 'onClick()'
   }
 })
 export class CalendarNavDirective {

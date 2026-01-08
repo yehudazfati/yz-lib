@@ -6,7 +6,7 @@ import { ViewNavigatorToken } from './calendar-navigator.tokens';
   selector: '[calendarView]',
   standalone: true,
   host: {
-    '(click)': 'onClick($event)'
+    '(click)': 'onClick()'
   }
 })
 export class CalendarViewDirective {

@@ -7,7 +7,6 @@ import { Component, HostListener, output, signal } from '@angular/core';
     {{dayTitle()}}
     <ng-content></ng-content>
   `,
-  styles: ``,
 })
 export class CalendarDay {
   dayTitle = signal<string>('');

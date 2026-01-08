@@ -32,15 +32,15 @@ export class CalendarNavigator implements OnInit, TimeNavigatorIfc, ViewNavigato
   calendarView = model<'day' | 'week' | 'month'>('month');
   daysInView = output<Date[][]>();
 
-  #prevMonth = () => {
+  #prevView = () => {
     this.currentDate.set(this.calendarService.prev(this.currentDate(), this.calendarView()));
     this.daysInView.emit(this.calendarService.daysInView(this.currentDate(), this.calendarView()));
   };
-  #nextMonth = () => {
+  #nextView = () => {
     this.currentDate.set(this.calendarService.next(this.currentDate(), this.calendarView()))
     this.daysInView.emit(this.calendarService.daysInView(this.currentDate(), this.calendarView()));
   };
-  #currentDate = () => {
+  #today = () => {
     this.currentDate.set(new Date())
     this.daysInView.emit(this.calendarService.daysInView(this.currentDate(), this.calendarView()));
   };
@@ -57,13 +57,13 @@ export class CalendarNavigator implements OnInit, TimeNavigatorIfc, ViewNavigato
   navidate(value: 'next' | 'prev' | 'today') {
     switch (value) {
       case 'next':
-        this.#nextMonth();
+        this.#nextView();
         break;
       case 'prev':
-        this.#prevMonth();
+        this.#prevView();
         break;
       case 'today':
-        this.#currentDate();
+        this.#today();
     }
   }
 }

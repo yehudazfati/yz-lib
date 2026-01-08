@@ -12,11 +12,14 @@ import { MyCalendar } from "./my-calendar/my-calendar";
   styleUrl: './app.component.scss',
   selector: 'app-root',
   template: `
-    <modal [(showModal)]="showFormModal">
+    <modal [(showModal)]="showFormModal" (modalClosed)="event.set(undefined)">
       <a closeModal> X </a>
       <calendar-event-form (saved)="saveEvent($event)" [event]="event()"></calendar-event-form>
     </modal>
-    <my-calendar (dayClick)="handleDaySelected($event)" (eventClick)="updateEvent($event)"  [(currentDate)]="currentMonth"></my-calendar>
+    <my-calendar 
+      (dayClick)="handleDaySelected($event)" 
+      (eventClick)="updateEvent($event)"  
+      [(currentDate)]="currentMonth"></my-calendar>
   `,
   imports: [MyCalendar, CalendarEventFormComponent, Modal, CloseModalDirective],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -37,7 +40,7 @@ export class App {
   updateEvent(eventToUpdate: CalendarEvent) {
     this.event.set(eventToUpdate);
   }
-
+  
   handleDaySelected = (day: Date) => {
     this.event.set({
       date: day,

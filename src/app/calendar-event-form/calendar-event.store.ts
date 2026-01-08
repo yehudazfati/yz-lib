@@ -1,13 +1,20 @@
-import { patchState, signalStore, withComputed, withMethods, withState } from "@ngrx/signals";
+import { patchState, signalStore, withComputed, withHooks, withMethods, withState } from "@ngrx/signals";
 import { CalendarEvent } from "./calendar-event";
-import { computed } from "@angular/core";
+import { computed, inject } from "@angular/core";
 import { isSameDay, isSameMonth, isSameWeek } from "date-fns";
-type CalendarState = { events: CalendarEvent[], loading: boolean, error: boolean };
-const initialState: CalendarState = {
+import { HttpClient } from "@angular/common/http";
+import { EventService } from "../event.service";
+type CalendarState = { 
+    events: CalendarEvent[], 
+    loading: boolean, 
+    error: boolean 
+    // loadCalendarEvents: () => void
+};
+const initialState = {
     events: [],
     loading: false,
-    error: false
-};
+    error: false,
+} as unknown as CalendarState;
 export const CalendarStore = signalStore(
     {
         providedIn: 'root'
@@ -17,6 +24,15 @@ export const CalendarStore = signalStore(
         sortedEvents: computed(() => events().sort((a, b) => a.date.getTime() - b.date.getTime())),
     })),
     withMethods((store) => ({
+        loadCalendarEvents(eventService = inject(EventService)): void {
+            eventService.getAll().subscribe((events) => {
+                if (!!events) {
+                    patchState(store, (state) => ({
+                        events: [...state.events, ...events]
+                    }))
+                }
+            });
+        },
         getEventsForDay(day: Date): CalendarEvent[] {
             return store.events().filter(e => isSameDay(e.date, day));
         },
@@ -37,5 +53,10 @@ export const CalendarStore = signalStore(
                 events: state.events.filter(e => e !== event)
             }))
         }
-    }))
+    })),
+    withHooks({
+        onInit: (store) => {
+            store.loadCalendarEvents();
+        }
+    })
 );

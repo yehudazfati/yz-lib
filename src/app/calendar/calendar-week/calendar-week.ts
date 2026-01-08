@@ -1,5 +1,4 @@
-import { Component, ContentChild, ContentChildren, QueryList } from '@angular/core';
-import { CalendarDay } from '../calendar-day/calendar-day';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'calendar-week',
