@@ -3,7 +3,6 @@ import { CalendarServiceToken } from '../../my-calendar/consts';
 import { TimeNavigatorIfc, ViewNavigatorIfc } from './calendar-interfaces';
 import { TimeNavigatorToken, ViewNavigatorToken } from './calendar-navigator.tokens';
 
-
 @Component({
   providers: [
     {
@@ -16,6 +15,7 @@ import { TimeNavigatorToken, ViewNavigatorToken } from './calendar-navigator.tok
     },
     
   ],
+  standalone: true,
   selector: 'calendar-navigator',
   template: `<ng-content></ng-content>`,
   styles: `

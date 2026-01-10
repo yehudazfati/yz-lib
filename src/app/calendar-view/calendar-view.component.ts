@@ -1,0 +1,67 @@
+import { Component, inject, linkedSignal, signal } from '@angular/core';
+import { CalendarEvent } from '../calendar-event-form/calendar-event';
+import { CalendarEventFormComponent } from "../calendar-event-form/calendar-event-form.component";
+import { CalendarEventStoreService } from '../calendar-event-form/calendar-event-store.service';
+import { CalendarStore } from '../calendar-event-form/calendar-event.store';
+import { CloseModalDirective } from "../modal/close-modal.directive";
+import { Modal } from "../modal/modal";
+import { PersistenceServiceToken } from '../my-calendar/consts';
+import { MyCalendar } from "../my-calendar/my-calendar";
+
+@Component({
+  selector: 'calendar-view',
+  standalone: true,
+  imports: [MyCalendar, CalendarEventFormComponent, Modal, CloseModalDirective],
+  template: `
+    <modal [(showModal)]="showFormModal" (modalClosed)="event.set(undefined)">
+      <a closeModal> X </a>
+      <calendar-event-form (saved)="saveEvent($event)" [event]="event()"></calendar-event-form>
+    </modal>
+    <my-calendar 
+      (dayClick)="handleDaySelected($event)" 
+      (eventClick)="updateEvent($event)"  
+      [(currentDate)]="currentMonth"></my-calendar>
+  `,
+  providers: [
+    CalendarStore,
+    {
+      provide: PersistenceServiceToken,
+      useClass: CalendarEventStoreService
+    }],
+    styles: `
+    :host {
+      height: -webkit-fill-available;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+    }
+    `
+})
+export class CalendarViewComponent {
+  event = signal<CalendarEvent | undefined>(undefined);
+  showFormModal = linkedSignal(() => !!this.event())
+  daySelected = signal<Date | undefined>(undefined);
+  currentMonth = signal<Date>(new Date());
+  readonly persisteceService = inject(PersistenceServiceToken);
+
+  updateEvent(eventToUpdate: CalendarEvent) {
+    this.event.set(eventToUpdate);
+  }
+  
+  handleDaySelected = (day: Date) => {
+    this.event.set({
+      date: day,
+      title: '',
+      description: ''
+    });
+  }
+
+  saveEvent = (event: CalendarEvent | any) => {
+    this.persisteceService.save(event);
+    this.event.set(undefined);
+  }
+
+  deleteDay = (event: CalendarEvent) => {
+    this.persisteceService.deleteEvent(event);
+  }
+}
