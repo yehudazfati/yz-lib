@@ -1,11 +1,12 @@
 import { DatePipe } from '@angular/common';
-import { afterNextRender, afterRenderEffect, Component, inject, input, output } from '@angular/core';
+import { afterNextRender, afterRenderEffect, ChangeDetectionStrategy, Component, inject, input, output } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CalendarEvent } from './calendar-event';
 
 @Component({
   selector: 'calendar-event-form',
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [ReactiveFormsModule, DatePipe],
   template: `
     <form  [formGroup]="calendarEventForm" (ngSubmit)="save()">

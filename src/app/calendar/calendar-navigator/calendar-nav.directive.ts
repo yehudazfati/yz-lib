@@ -1,6 +1,6 @@
 import { Directive, inject, input } from '@angular/core';
-import { TimeNavigatorToken } from './calendar-navigator.tokens';
 import { TimeNavigatorIfc } from './calendar-interfaces';
+import { TimeNavigatorToken } from './calendar-navigator.tokens';
 
 @Directive({
   selector: '[calendarNav]',

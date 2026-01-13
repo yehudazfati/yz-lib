@@ -1,5 +1,5 @@
 import { NgTemplateOutlet } from '@angular/common';
-import { Component, model, output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, model, output } from '@angular/core';
 import { ModalToken } from './modal.consts';
 import { ModalIfc } from './modal.interfaces';
 
@@ -11,6 +11,7 @@ import { ModalIfc } from './modal.interfaces';
   }],
   imports: [NgTemplateOutlet],
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <ng-template #createEventContainer>
       <div class='modal-content'>

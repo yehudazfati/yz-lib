@@ -1,4 +1,4 @@
-import { Component, inject, linkedSignal, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, linkedSignal, signal } from '@angular/core';
 import { CalendarEvent } from '../calendar-event-form/calendar-event';
 import { CalendarEventFormComponent } from "../calendar-event-form/calendar-event-form.component";
 import { CalendarEventStoreService } from '../calendar-event-form/calendar-event-store.service';
@@ -11,6 +11,7 @@ import { MyCalendar } from "../my-calendar/my-calendar";
 @Component({
   selector: 'calendar-view',
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [MyCalendar, CalendarEventFormComponent, Modal, CloseModalDirective],
   template: `
     <modal [(showModal)]="showFormModal" (modalClosed)="event.set(undefined)">

@@ -1,11 +1,11 @@
 import { DatePipe, NgClass } from '@angular/common';
-import { Component, computed, inject, model, output, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, linkedSignal, model, output, signal } from '@angular/core';
 import { CalendarDay } from "../calendar/calendar-day/calendar-day";
 import { CalendarFnsService } from '../calendar-event-form/calendar-fns.service';
 import { CalendarMonth } from "../calendar/calendar-month/calendar-month";
 import { CalendarNavDirective } from '../calendar/calendar-navigator/calendar-nav.directive';
 import { CalendarNavigator } from "../calendar/calendar-navigator/calendar-navigator";
-import { CalendarViewDirective } from '../calendar/calendar-navigator/calendar-view.directive';
+import { CalendarViewLinkDirective } from '../calendar/calendar-navigator/calendar-view-link.directive';
 import { CalendarWeek } from "../calendar/calendar-week/calendar-week";
 import { Calendar } from "../calendar/calendar";
 import { CalendarServiceToken, PersistenceServiceToken } from './consts';
@@ -13,8 +13,9 @@ import { CalendarEvent } from '../calendar-event-form/calendar-event';
 
 @Component({
   selector: 'my-calendar',
-  imports: [Calendar, CalendarMonth, CalendarWeek, CalendarDay, DatePipe, CalendarNavigator, NgClass, CalendarViewDirective, CalendarNavDirective],
+  imports: [Calendar, CalendarMonth, CalendarWeek, CalendarDay, DatePipe, CalendarNavigator, NgClass, CalendarViewLinkDirective, CalendarNavDirective],
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     {
       provide: CalendarServiceToken,
@@ -24,17 +25,21 @@ import { CalendarEvent } from '../calendar-event-form/calendar-event';
   styleUrl: './my-calendar.scss',
   template: `
     <calendar>
-      <calendar-navigator [(currentDate)]="currentDate" (daysInView)="daysInView.set($event)" [(calendarView)]="calendarView">
-          <div class="flex-row">
-            <button calendarNav='prev'>Previous</button>
-            <div>{{ currentDate() | date: 'MMMM, y' }}</div>
-            <button calendarNav='next'>Next</button>
-            <button calendarNav='today'>Today</button>
+      <calendar-navigator class="flex-row space-around" [(currentDate)]="currentDate" (daysInView)="daysInView.set($event)" [(calendarView)]="calendarView">
+          <div class="flex-row grow-1 justify-start">
+            <div class="flex-row space-around grow-2 align-center">
+              <button class="nav-button grow-1" calendarNav='prev'>Previous</button>
+              <div class="grow-2 justify-center flex-row">{{ currentDate() | date: 'MMMM, y' }}</div>
+              <button class="nav-button grow-1" calendarNav='next'>Next</button>
+            </div>
+            <div class="flex-row space-around grow-1 justify-end">
+              <button [disabled]="isToday(currentDate())" class="nav-button" calendarNav='today'>Today</button>
+            </div>
           </div>
-          <div  class="flex-row">
-            <button calendarView='day'>Day</button>
-            <button calendarView='week'>Week</button>
-            <button calendarView='month'>Month</button>
+          <div  class="flex-row grow-1 justify-end space-around">
+            <button calendarViewLink='day' [class]="selectedViewCssClass('day')" class="radius-left">Day</button>
+            <button calendarViewLink='week' [class]="selectedViewCssClass('week')">Week</button>
+            <button calendarViewLink='month' [class]="selectedViewCssClass('month')" class="radius-right">Month</button>
           </div>
       </calendar-navigator>
 
@@ -77,6 +82,7 @@ export class MyCalendar {
   dayClick = output<Date>();
   eventClick = output<CalendarEvent>();
   calendarView = model<'day' | 'month' | 'week'>('month');
+  selectedViewCssClass = (view: string) => view === this.calendarView() ? 'nav-button selected': 'nav-button';
   daysInView = signal<Date[][]>([[]]);
   calendarService = inject(CalendarServiceToken);
   persisteceService = inject(PersistenceServiceToken);

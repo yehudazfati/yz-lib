@@ -1,4 +1,4 @@
-import { Component, inject, model, OnInit, output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, model, OnInit, output } from '@angular/core';
 import { CalendarServiceToken } from '../../my-calendar/consts';
 import { TimeNavigatorIfc, ViewNavigatorIfc } from './calendar-interfaces';
 import { TimeNavigatorToken, ViewNavigatorToken } from './calendar-navigator.tokens';
@@ -16,14 +16,9 @@ import { TimeNavigatorToken, ViewNavigatorToken } from './calendar-navigator.tok
     
   ],
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'calendar-navigator',
   template: `<ng-content></ng-content>`,
-  styles: `
-    :host {
-      display: flex;
-      justify-content: space-between;
-    }
-  `,
 })
 export class CalendarNavigator implements OnInit, TimeNavigatorIfc, ViewNavigatorIfc {
 

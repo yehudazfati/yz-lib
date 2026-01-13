@@ -1,9 +1,8 @@
-import { patchState, signalStore, withComputed, withHooks, withMethods, withState } from "@ngrx/signals";
-import { CalendarEvent } from "./calendar-event";
 import { computed, inject } from "@angular/core";
+import { patchState, signalStore, withComputed, withHooks, withMethods, withState } from "@ngrx/signals";
 import { isSameDay, isSameMonth, isSameWeek } from "date-fns";
-import { HttpClient } from "@angular/common/http";
 import { EventService } from "../event.service";
+import { CalendarEvent } from "./calendar-event";
 type CalendarState = { 
     events: CalendarEvent[], 
     loading: boolean, 

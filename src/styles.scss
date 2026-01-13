@@ -1,0 +1,100 @@
+/* You can add global styles to this file, and also import other style files */
+html,
+body {
+  height: -webkit-fill-available;
+  position: relative;
+  display: block;
+}
+
+body {
+  font-family: 'Be Vietnam Pro', sans-serif;
+}
+
+
+.flex-row {
+  display: flex;
+  flex-direction: row;
+}
+
+.flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
+
+.close-button {
+  cursor: pointer;
+  background-color: white;
+  border-radius: 130px;
+  width: 20px;
+  height: 20px;
+  display: inline-block;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.error {
+  font-size: 13px;
+  line-height: 13px;
+  color: red;
+}
+
+a[routerLink] {
+  cursor: pointer;
+}
+
+.fill-height {
+  height: -webkit-fill-available;
+  position: relative;
+}
+
+.space-around {
+  justify-content: space-around;
+}
+
+.justify-end {
+  justify-content: flex-end;
+}
+
+.justify-start {
+  justify-content: flex-start;
+}
+
+.justify-center {
+  justify-content: center;
+}
+
+.align-center {
+  align-items: center;
+}
+
+.radius-left {
+  border-radius: 50% 0 0 50%;
+}
+
+.radius-right {
+  border-radius: 0 50% 50% 0;
+}
+
+.nav-button {
+  background: aliceblue;
+  border: 1px solid;
+  padding: 15px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.nav-button:disabled {
+  cursor: auto;
+}
+
+.nav-button.selected:not(:disabled),
+.nav-button:active:not(:disabled) {
+  background: rgba(173, 228, 230, 0.612);
+}
+
+@for $i from 1 through 6 {
+  .grow-#{$i} {
+    flex-grow: $i;
+  }
+}

@@ -3,18 +3,18 @@ import { ViewNavigatorIfc } from './calendar-interfaces';
 import { ViewNavigatorToken } from './calendar-navigator.tokens';
 
 @Directive({
-  selector: '[calendarView]',
+  selector: '[calendarViewLink]',
   standalone: true,
   host: {
-    '(click)': 'onClick()'
+    '(click)': 'onClick()',
   }
 })
-export class CalendarViewDirective {
-  calendarView = input.required<'day' | 'week' | 'month'>();
+export class CalendarViewLinkDirective {
+  calendarViewLink = input.required<'day' | 'week' | 'month'>();
   viewSwitcher =  inject<ViewNavigatorIfc>(ViewNavigatorToken, { optional: true});
 
   onClick() {
     if (!this.viewSwitcher) console.warn('ViewNavigatorToken not provided');
-    this.viewSwitcher?.changeView(this.calendarView());
+    this.viewSwitcher?.changeView(this.calendarViewLink());
   }
 }

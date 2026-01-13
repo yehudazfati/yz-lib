@@ -7,8 +7,10 @@
  */
 
 import { HttpEvent, HttpEventType, HttpHandlerFn, HttpRequest, provideHttpClient, withFetch, withInterceptors } from '@angular/common/http';
-import { ApplicationConfig } from '@angular/core';
+import { ApplicationConfig, provideZonelessChangeDetection } from '@angular/core';
+import { provideRouter } from '@angular/router';
 import { Observable, tap } from 'rxjs';
+import { routes } from './app.routes';
 
 export function loggingInterceptor(req: HttpRequest<unknown>, next: HttpHandlerFn): Observable<HttpEvent<unknown>> {
   return next(req).pipe(tap(event => {
@@ -21,6 +23,8 @@ export function loggingInterceptor(req: HttpRequest<unknown>, next: HttpHandlerF
 
 export const appConfig: ApplicationConfig = {
   providers: [
+    provideRouter(routes),
+    provideZonelessChangeDetection(),
     provideHttpClient(
       withFetch(),
       withInterceptors([loggingInterceptor])
